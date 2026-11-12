@@ -1,161 +1,294 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#170725">
 <title>Cosmic Countdown</title>
+
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;color:white;
- font-family:Arial,sans-serif;text-align:center;
- background:radial-gradient(ellipse at 50% 35%,
- #672a91,#271345 55%,#050510);
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #170725;
+  color: white;
+  font-family: Arial, sans-serif;
 }
-.stars{
- position:fixed;inset:0;pointer-events:none;
- background-image:radial-gradient(white 1px,transparent 1px);
- background-size:37px 49px;opacity:.35;
- animation:twinkle 3s infinite alternate;
+
+body {
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 45%,
+      #69318f 0%, #35144f 48%, #10051d 100%);
 }
-@keyframes twinkle{to{opacity:.65}}
-main{position:relative;max-width:650px;margin:auto;padding:45px 10px}
-h1{font-size:clamp(17px,5vw,26px);letter-spacing:2px;color:#f1dcff}
-.planet{font-size:65px;margin:25px}
-.clock{display:flex;gap:5px;margin:30px auto}
-.unit{flex:1;min-width:0}
-.screen{
- display:flex;height:clamp(65px,17vw,110px);
- padding:5px 2px;background:#080e15;
- border:1px solid #9755d0;border-radius:8px;
- box-shadow:0 0 20px #a44aff66;
+
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(#ffffffbb 1px, transparent 1.5px),
+    radial-gradient(#d6adff88 1px, transparent 1.5px);
+  background-size: 47px 61px, 83px 101px;
+  background-position: 12px 18px, 35px 49px;
+  animation: twinkle 4s infinite alternate;
 }
-.digit{flex:1;min-width:0}
-.digit svg{
- width:100%;height:100%;
- filter:drop-shadow(0 0 5px #49ff63);
+
+@keyframes twinkle {
+  from { opacity: .45; }
+  to { opacity: 1; }
 }
-.label{margin-top:10px;font-size:10px;color:#aaffb8}
-h2{color:#e7ceff}
-.controls{
- margin-top:40px;padding:20px 12px;
- border:1px solid #ffffff33;
- border-radius:16px;background:#ffffff0b;
+
+.screen {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  padding: 30px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(22px, 5vh, 45px);
+  text-align: center;
 }
-input,button{
- display:block;width:100%;max-width:360px;
- margin:12px auto;padding:14px;
- border-radius:10px;font-size:16px;
+
+.heading {
+  max-width: 95%;
+  color: #f1d8ff;
+  font-size: clamp(18px, 5vw, 30px);
+  font-weight: bold;
+  letter-spacing: 2px;
+  line-height: 1.4;
+  text-shadow: 0 0 20px #e6a2ff99;
 }
-input{background:#201435;color:white;border:1px solid #9569c4}
-button{background:#8742bd;color:white;border:0;font-weight:bold}
-.share{background:#295a3c}
+
+.planet {
+  font-size: clamp(80px, 22vw, 130px);
+  filter: drop-shadow(0 0 25px #c77dff99);
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.timer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.unit { min-width: 0; }
+
+.display {
+  width: 100%;
+  aspect-ratio: 1.4;
+  padding: 6px 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  background: #030b07;
+  border: 1px solid #a64bdf;
+  border-radius: 10px;
+  box-shadow:
+    0 0 12px #b04dff77,
+    inset 0 0 18px #000;
+}
+
+.digit {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  max-width: 55px;
+}
+
+.segment {
+  position: absolute;
+  background: #16391f;
+  opacity: .3;
+  border-radius: 2px;
+}
+
+.segment.on {
+  background: #3aff68;
+  opacity: 1;
+  box-shadow:
+    0 0 7px #3aff68,
+    0 0 15px #20e94d;
+}
+
+.a, .g, .d {
+  left: 19%;
+  width: 62%;
+  height: 8%;
+  clip-path: polygon(
+    12% 0, 88% 0, 100% 50%,
+    88% 100%, 12% 100%, 0 50%
+  );
+}
+
+.a { top: 3%; }
+.g { top: 46%; }
+.d { bottom: 3%; }
+
+.b, .c, .e, .f {
+  width: 13%;
+  height: 39%;
+  clip-path: polygon(
+    50% 0, 100% 12%, 100% 88%,
+    50% 100%, 0 88%, 0 12%
+  );
+}
+
+.f { left: 7%; top: 8%; }
+.b { right: 7%; top: 8%; }
+.e { left: 7%; bottom: 8%; }
+.c { right: 7%; bottom: 8%; }
+
+.label {
+  margin-top: 12px;
+  color: #c8ffd3;
+  font-size: clamp(10px, 2.7vw, 15px);
+  letter-spacing: 1px;
+}
+
+.date {
+  color: #e8d0fa;
+  font-size: clamp(14px, 4vw, 20px);
+  letter-spacing: 1px;
+}
+
+@media (max-height: 650px) {
+  .screen { gap: 15px; padding: 15px 10px; }
+  .planet { font-size: 65px; }
+}
 </style>
 </head>
+
 <body>
 <div class="stars"></div>
-<main>
-<h1>UNTIL WE MEET AGAIN</h1>
-<div class="planet">🪐</div>
-<div class="clock" id="clock"></div>
-<h2 id="eventTitle">Our Meeting 💜</h2>
-<p id="eventDate"></p>
 
-<div class="controls">
-<h2>Create Your Countdown</h2>
-<input id="name" placeholder="Event Name" maxlength="100">
-<input id="date" type="datetime-local">
-<button onclick="createTimer()">Create Countdown</button>
-<button class="share" onclick="shareTimer()">Share Countdown 💚</button>
-</div>
+<main class="screen">
+
+  <div class="heading">
+    DOCKING: JUPITER 7 × MARS 0.1
+  </div>
+
+  <div class="planet">🪐</div>
+
+  <div class="timer">
+
+    <div class="unit">
+      <div class="display" id="days"></div>
+      <div class="label">DAYS</div>
+    </div>
+
+    <div class="unit">
+      <div class="display" id="hours"></div>
+      <div class="label">HOURS</div>
+    </div>
+
+    <div class="unit">
+      <div class="display" id="minutes"></div>
+      <div class="label">MIN</div>
+    </div>
+
+    <div class="unit">
+      <div class="display" id="seconds"></div>
+      <div class="label">SEC</div>
+    </div>
+
+  </div>
+
+  <div class="date">
+    14 NOVEMBER 2026 · 00:05
+  </div>
+
 </main>
 
 <script>
-const params=new URLSearchParams(location.search);
-const defaultDate="2026-11-14T00:05:00+01:00";
-let target=new Date(defaultDate);
-let title="Our Meeting 💜";
-
-if(params.has("date")){
- const d=new Date(params.get("date"));
- if(!isNaN(d.getTime()))target=d;
-}
-if(params.has("title"))title=params.get("title").slice(0,100);
-
-const segments={
- 0:"abcdef",1:"bc",2:"abged",3:"abgcd",
- 4:"fgbc",5:"afgcd",6:"afgecd",
- 7:"abc",8:"abcdefg",9:"abfgcd"
-};
-const positions={
- a:[6,2,22,4],b:[27,5,4,21],
- c:[27,30,4,21],d:[6,51,22,4],
- e:[3,30,4,21],f:[3,5,4,21],
- g:[6,26,22,4]
+const patterns = {
+  0: "abcdef",
+  1: "bc",
+  2: "abged",
+  3: "abgcd",
+  4: "fgbc",
+  5: "afgcd",
+  6: "afgecd",
+  7: "abc",
+  8: "abcdefg",
+  9: "abfgcd"
 };
 
-function digit(n){
- return '<svg viewBox="0 0 34 57">'+
- Object.entries(positions).map(([k,p])=>
- '<rect x="'+p[0]+'" y="'+p[1]+
- '" width="'+p[2]+'" height="'+p[3]+
- '" rx="1" fill="'+
- (segments[n].includes(k)?"#49ff63":"#173b24")+
- '"/>').join("")+'</svg>';
+function drawDigit(number) {
+  const digit = document.createElement("div");
+  digit.className = "digit";
+
+  const active = patterns[number] || "";
+
+  for (const part of "abcdefg") {
+    const segment = document.createElement("div");
+    segment.className =
+      "segment " + part +
+      (active.includes(part) ? " on" : "");
+    digit.appendChild(segment);
+  }
+
+  return digit;
 }
 
-function update(){
- let s=Math.max(0,Math.floor((target-Date.now())/1000));
- const values=[
- Math.floor(s/86400),
- Math.floor(s%86400/3600),
- Math.floor(s%3600/60),
- s%60
- ];
- const labels=["DAYS","HOURS","MIN","SEC"];
- document.getElementById("clock").innerHTML=
- values.map((v,i)=>
- '<div class="unit"><div class="screen">'+
- String(v).padStart(2,"0").split("")
- .map(x=>'<div class="digit">'+digit(x)+'</div>').join("")+
- '</div><div class="label">'+labels[i]+'</div></div>'
- ).join("");
- document.getElementById("eventTitle").textContent=title;
- document.getElementById("eventDate").textContent=
- target.toLocaleString("en-GB");
+function display(id, value) {
+  const box = document.getElementById(id);
+  box.replaceChildren();
+
+  String(value).padStart(2, "0")
+    .split("")
+    .forEach(n => {
+      box.appendChild(drawDigit(Number(n)));
+    });
 }
 
-function createTimer(){
- const name=document.getElementById("name").value.trim();
- const value=document.getElementById("date").value;
- if(!value){alert("Please select a date and time");return}
- const d=new Date(value);
- if(isNaN(d.getTime()))return;
- target=d;
- title=name||"My Countdown";
- const url=new URL(location.href);
- url.searchParams.set("date",target.toISOString());
- url.searchParams.set("title",title);
- history.replaceState(null,"",url);
- update();
+// Zurich time: 14 November 2026, 00:05
+const target =
+  new Date("2026-11-13T23:05:00Z").getTime();
+
+function updateCountdown() {
+  let remaining =
+    Math.max(0, target - Date.now());
+
+  const days =
+    Math.floor(remaining / 86400000);
+  remaining %= 86400000;
+
+  const hours =
+    Math.floor(remaining / 3600000);
+  remaining %= 3600000;
+
+  const minutes =
+    Math.floor(remaining / 60000);
+  remaining %= 60000;
+
+  const seconds =
+    Math.floor(remaining / 1000);
+
+  display("days", days);
+  display("hours", hours);
+  display("minutes", minutes);
+  display("seconds", seconds);
 }
 
-async function shareTimer(){
- const url=location.href;
- if(navigator.share){
- try{
- await navigator.share({title:"Cosmic Countdown",url});
- return;
- }catch(e){}
- }
- const tgUrl="https://t.me/share/url?url="+
- encodeURIComponent(url)+"&text="+
- encodeURIComponent(title);
- window.open(tgUrl,"_blank");
-}
-
-update();
-setInterval(update,1000);
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
+
 </body>
 </html>
